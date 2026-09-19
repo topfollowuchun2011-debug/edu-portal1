@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>EduPortal — Ta'lim boshqaruv tizimi</title>
+<meta name="description" content="Maktab uchun BSB/CHSB topshiriqlari, baholar, reyting va onlayn testlar tizimi.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:ital,wght@0,700;0,800;1,700;1,800&display=swap" rel="stylesheet">
+
+<!-- Uslublar: har biri o'z vazifasiga javob beradi -->
+<link rel="stylesheet" href="css/base.css">
+<link rel="stylesheet" href="css/layout.css">
+<link rel="stylesheet" href="css/components.css">
+<link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+
+<div class="scrim-drawer" id="drawerScrim"></div>
+<div class="shell">
+
+  <!-- ============ SIDEBAR ============ -->
+  <aside class="rail" id="rail">
+    <div class="rail-brand">
+      <div class="rail-mark" id="railMark"></div>
+      <div>
+        <b>EduPortal</b>
+        <small id="railSchool">Ta'lim boshqaruv tizimi</small>
+      </div>
+    </div>
+    <nav class="rail-nav" id="railNav"></nav>
+    <div class="rail-foot">
+      <button class="me-card" id="meCard">
+        <span id="meAv"></span>
+        <span style="min-width:0;flex:1">
+          <span class="nm" id="meName">Yuklanmoqda…</span>
+          <span class="rl" id="meRole">—</span>
+        </span>
+      </button>
+    </div>
+  </aside>
+
+  <!-- ============ MAIN ============ -->
+  <div class="main">
+    <header class="topbar">
+      <button class="burger" id="burger" aria-label="Menyu"></button>
+      <div class="crumb">
+        <b id="pageTitle">Bosh sahifa</b>
+        <span id="pageSub">Umumiy ko'rsatkichlar</span>
+      </div>
+      <div class="top-actions">
+        <button class="icon-btn" id="bellBtn" aria-label="Bildirishnomalar"></button>
+        <button class="icon-btn" id="themeBtn" aria-label="Mavzu"></button>
+      </div>
+    </header>
+
+    <div class="page">
+
+      <!-- ---------- DASHBOARD ---------- -->
+      <section class="view on" id="v-dashboard">
+        <div id="dashBanner"></div>
+        <div class="grid g3" id="dashStats" style="margin-bottom:18px"></div>
+        <div class="grid g2">
+          <div class="card">
+            <div class="card-h">
+              <h3>Fanlar bo'yicha o'rtacha ball</h3>
+              <span class="dim" id="chartMeta"></span>
+            </div>
+            <div class="pad"><div class="bars" id="subjectBars"></div></div>
+          </div>
+          <div class="card">
+            <div class="card-h"><h3>Sinflar kesimida</h3></div>
+            <div class="pad"><div class="bars" id="classBars"></div></div>
+          </div>
+        </div>
+        <div class="grid g2" style="margin-top:16px">
+          <div class="card">
+            <div class="card-h">
+              <h3>Yaqin muddatli topshiriqlar</h3>
+              <button class="btn sm ghost" data-go="bsb">Hammasi</button>
+            </div>
+            <div id="dashDeadlines"></div>
+          </div>
+          <div class="card">
+            <div class="card-h"><h3>So'nggi harakatlar</h3></div>
+            <div id="dashFeed"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ---------- BSB ---------- -->
+      <section class="view" id="v-bsb">
+        <div class="sec-head">
+          <h2>BSB topshiriqlari</h2>
+          <button class="btn sm" id="newBsbBtn" style="display:none">Topshiriq qo'shish</button>
+        </div>
+        <div class="row" style="margin-bottom:14px">
+          <div class="search"><input class="inp" id="bsbSearch" placeholder="Fan yoki mavzu bo'yicha qidirish"></div>
+          <select class="inp" id="bsbSubject" style="max-width:190px"><option value="">Barcha fanlar</option></select>
+        </div>
+        <div class="grid g2" id="bsbList"></div>
+      </section>
+
+      <!-- ---------- CHSB ---------- -->
+      <section class="view" id="v-chsb">
+        <div class="sec-head">
+          <h2>CHSB imtihonlari</h2>
+          <button class="btn sm" id="newChsbBtn" style="display:none">Imtihon qo'shish</button>
+        </div>
+        <div class="grid g2" id="chsbList"></div>
+      </section>
+
+      <!-- ---------- EXAMS ---------- -->
+      <section class="view" id="v-exam">
+        <div class="sec-head">
+          <h2>Onlayn testlar</h2>
+          <button class="btn sm" id="newExamBtn" style="display:none">Test yaratish</button>
+        </div>
+        <div class="grid g2" id="examList"></div>
+        <h3 style="margin:26px 0 12px">Mening natijalarim</h3>
+        <div class="tbl-wrap"><table>
+          <thead><tr><th>Test</th><th>Sana</th><th>Natija</th><th>Foiz</th></tr></thead>
+          <tbody id="myExamRows"></tbody>
+        </table></div>
+      </section>
+
+      <!-- ---------- RATING ---------- -->
+      <section class="view" id="v-rating">
+        <div class="sec-head">
+          <h2>Reyting</h2>
+          <button class="btn sm ghost no-print" id="csvBtn">CSV yuklab olish</button>
+          <button class="btn sm ghost no-print" onclick="window.print()">Chop etish</button>
+        </div>
+        <div class="podium" id="podium"></div>
+        <div class="row no-print" style="margin-bottom:14px">
+          <div class="search"><input class="inp" id="ratingSearch" placeholder="Ism bo'yicha qidirish"></div>
+          <select class="inp" id="ratingClass" style="max-width:170px"><option value="">Barcha sinflar</option></select>
+        </div>
+        <div class="tbl-wrap"><table>
+          <thead><tr>
+            <th style="width:60px">O'rin</th>
+            <th class="sortable" data-sort="name">O'quvchi</th>
+            <th class="sortable" data-sort="className">Sinf</th>
+            <th class="sortable" data-sort="bsb">BSB</th>
+            <th class="sortable" data-sort="chsb">CHSB</th>
+            <th class="sortable" data-sort="total">Umumiy</th>
+            <th>Daraja</th>
+          </tr></thead>
+          <tbody id="ratingRows"></tbody>
+        </table></div>
+      </section>
+
+      <!-- ---------- STUDENTS ---------- -->
+      <section class="view" id="v-students">
+        <div class="sec-head"><h2>O'quvchilar</h2><span class="dim" id="stCount"></span></div>
+        <div class="row" style="margin-bottom:14px">
+          <div class="search"><input class="inp" id="stSearch" placeholder="Ism yoki sinf"></div>
+          <select class="inp" id="stClass" style="max-width:170px"><option value="">Barcha sinflar</option></select>
+        </div>
+        <div class="tbl-wrap"><table>
+          <thead><tr><th>O'quvchi</th><th>Sinf</th><th>BSB</th><th>CHSB</th><th>Ro'yxatga olingan</th><th></th></tr></thead>
+          <tbody id="studentRows"></tbody>
+        </table></div>
+      </section>
+
+      <!-- ---------- SUBMIT ---------- -->
+      <section class="view" id="v-submit">
+        <div class="sec-head"><h2>Ish topshirish</h2></div>
+        <div class="grid g2">
+          <div class="card">
+            <div class="card-h"><h3>Yangi ish yuborish</h3></div>
+            <div class="pad">
+              <form id="subForm">
+                <div class="field">
+                  <label for="subTask">Topshiriq</label>
+                  <select class="inp" id="subTask" required></select>
+                </div>
+                <div class="field">
+                  <label for="subNote">Izoh</label>
+                  <textarea class="inp" id="subNote" placeholder="Ishingiz haqida qisqacha yozing"></textarea>
+                </div>
+                <div class="field">
+                  <label for="subLink">Havola</label>
+                  <input class="inp" id="subLink" type="url" placeholder="https://… (Drive, Telegram yoki boshqa)">
+                  <div class="hint">Katta fayllarni havola sifatida yuboring.</div>
+                </div>
+                <div class="field">
+                  <label for="subFile">Rasm biriktirish</label>
+                  <input class="inp" id="subFile" type="file" accept="image/*">
+                  <div class="hint">180 KB gacha rasm to'g'ridan-to'g'ri saqlanadi.</div>
+                  <div class="err" id="subFileErr"></div>
+                </div>
+                <button class="btn block" type="submit" id="subBtn">Ishni yuborish</button>
+              </form>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-h"><h3>Yuborgan ishlarim</h3><span class="dim" id="mySubCount"></span></div>
+            <div id="mySubList"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ---------- CONTACT ---------- -->
+      <section class="view" id="v-contact">
+        <div class="sec-head"><h2>Bog'lanish</h2></div>
+        <div class="grid g2" style="max-width:760px" id="contactList"></div>
+      </section>
+
+      <!-- ---------- SETTINGS ---------- -->
+      <section class="view" id="v-settings">
+        <div class="sec-head"><h2>Sozlamalar</h2></div>
+        <div class="grid g2">
+          <div class="card">
+            <div class="card-h"><h3>Ko'rinish</h3></div>
+            <div class="pad">
+              <div class="field">
+                <label for="themeSel">Mavzu</label>
+                <select class="inp" id="themeSel">
+                  <option value="system">Tizim bo'yicha</option>
+                  <option value="light">Yorug'</option>
+                  <option value="dark">Qorong'i</option>
+                </select>
+              </div>
+              <div class="field">
+                <label for="densSel">Reyting jadvali</label>
+                <select class="inp" id="densSel">
+                  <option value="20">20 tadan ko'rsatish</option>
+                  <option value="50">50 tadan ko'rsatish</option>
+                  <option value="999">Hammasi</option>
+                </select>
+              </div>
+              <div class="hint">Bu sozlamalar faqat sizga tegishli va hisobingizda saqlanadi.</div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-h"><h3>Mening profilim</h3></div>
+            <div class="pad">
+              <form id="profForm">
+                <div class="field">
+                  <label for="pfName">Ism-familiya</label>
+                  <input class="inp" id="pfName" required maxlength="60">
+                </div>
+                <div class="field">
+                  <label for="pfClass">Sinf</label>
+                  <select class="inp" id="pfClass" required></select>
+                </div>
+                <button class="btn" type="submit">Profilni saqlash</button>
+              </form>
+            </div>
+          </div>
+          <div class="card" id="orgCard" style="display:none">
+            <div class="card-h"><h3>Muassasa</h3><span class="tag bsb">Admin</span></div>
+            <div class="pad">
+              <form id="orgForm">
+                <div class="field">
+                  <label for="ogName">Muassasa nomi</label>
+                  <input class="inp" id="ogName" maxlength="60">
+                </div>
+                <div class="field">
+                  <label for="ogQuarter">Joriy chorak</label>
+                  <select class="inp" id="ogQuarter">
+                    <option>1-chorak</option><option>2-chorak</option><option>3-chorak</option><option>4-chorak</option>
+                  </select>
+                </div>
+                <div class="field">
+                  <label for="ogClasses">Sinflar</label>
+                  <input class="inp" id="ogClasses" placeholder="9-A, 9-B, 9-V">
+                  <div class="hint">Vergul bilan ajrating.</div>
+                </div>
+                <div class="field">
+                  <label for="ogSubjects">Fanlar</label>
+                  <input class="inp" id="ogSubjects" placeholder="Matematika, Fizika">
+                </div>
+                <button class="btn" type="submit">Saqlash</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ---------- ADMIN ---------- -->
+      <section class="view" id="v-admin">
+        <div class="sec-head">
+          <h2>Boshqaruv paneli</h2>
+          <span class="tag ok" id="adminWho"></span>
+        </div>
+        <div class="tabs" id="adminTabs">
+          <button class="tab on" data-at="queue">Tekshiruv navbati</button>
+          <button class="tab" data-at="grades">Baholar</button>
+          <button class="tab" data-at="tasks">Topshiriqlar</button>
+          <button class="tab" data-at="exams">Testlar</button>
+          <button class="tab" data-at="ann">E'lonlar</button>
+                  </div>
+
+        <div class="atab" id="at-queue">
+          <div class="row" style="margin-bottom:14px">
+            <select class="inp" id="qFilter" style="max-width:210px">
+              <option value="pending">Tekshirilmaganlar</option>
+              <option value="graded">Baholanganlar</option>
+              <option value="returned">Qaytarilganlar</option>
+              <option value="">Hammasi</option>
+            </select>
+          </div>
+          <div class="card" id="queueList"></div>
+        </div>
+
+        <div class="atab" id="at-grades" style="display:none">
+          <div class="row" style="margin-bottom:14px">
+            <div class="search"><input class="inp" id="gradeSearch" placeholder="O'quvchini qidirish"></div>
+          </div>
+          <div class="tbl-wrap"><table>
+            <thead><tr><th>O'quvchi</th><th>Sinf</th><th>BSB</th><th>CHSB</th><th>Fanlar</th><th></th></tr></thead>
+            <tbody id="gradeRows"></tbody>
+          </table></div>
+        </div>
+
+        <div class="atab" id="at-tasks" style="display:none">
+          <div class="row" style="margin-bottom:14px">
+            <button class="btn sm" id="adminNewTask">Yangi topshiriq</button>
+          </div>
+          <div class="tbl-wrap"><table>
+            <thead><tr><th>Nomi</th><th>Turi</th><th>Fan</th><th>Muddat</th><th>Ishlar</th><th></th></tr></thead>
+            <tbody id="taskRows"></tbody>
+          </table></div>
+        </div>
+
+        <div class="atab" id="at-exams" style="display:none">
+          <div class="row" style="margin-bottom:14px">
+            <button class="btn sm" id="adminNewExam">Yangi test</button>
+          </div>
+          <div class="tbl-wrap"><table>
+            <thead><tr><th>Test</th><th>Fan</th><th>Savollar</th><th>Vaqt</th><th>Topshirganlar</th><th></th></tr></thead>
+            <tbody id="examRows"></tbody>
+          </table></div>
+        </div>
+
+        <div class="atab" id="at-ann" style="display:none">
+          <div class="grid g2">
+            <div class="card">
+              <div class="card-h"><h3>Yangi e'lon</h3></div>
+              <div class="pad">
+                <form id="annForm">
+                  <div class="field"><label for="annT">Sarlavha</label><input class="inp" id="annT" required maxlength="80"></div>
+                  <div class="field"><label for="annB">Matn</label><textarea class="inp" id="annB" required maxlength="500"></textarea></div>
+                  <button class="btn block">E'lonni chiqarish</button>
+                </form>
+              </div>
+            </div>
+            <div class="card">
+              <div class="card-h"><h3>Chiqarilgan e'lonlar</h3></div>
+              <div id="annList"></div>
+            </div>
+          </div>
+        </div>
+
+      </section>
+
+    </div>
+  </div>
+</div>
+
+<!-- ============ MODALS ============ -->
+<div class="scrim" id="onboardScrim">
+  <div class="modal">
+    <div class="modal-h"><h3>EduPortal'ga xush kelibsiz</h3><p>Reytingda ko'rinishingiz uchun sinfingizni tanlang.</p></div>
+    <div class="modal-b">
+      <form id="onboardForm">
+        <div class="field"><label for="obName">Ism-familiya</label><input class="inp" id="obName" required maxlength="60"></div>
+        <div class="field"><label for="obClass">Sinf</label><select class="inp" id="obClass" required></select></div>
+        <button class="btn block" type="submit">Boshlash</button>
+      </form>
+    </div>
+  </div>
+</div>
+
+<div class="scrim" id="formScrim">
+  <div class="modal wide">
+    <div class="modal-h"><h3 id="fmTitle"></h3><p id="fmSub"></p></div>
+    <div class="modal-b"><form id="fmForm"></form></div>
+    <div class="modal-f">
+      <button class="btn ghost" id="fmCancel" type="button">Bekor qilish</button>
+      <button class="btn" id="fmSave" type="button">Saqlash</button>
+    </div>
+  </div>
+</div>
+
+<div class="scrim" id="confirmScrim">
+  <div class="modal" style="max-width:400px">
+    <div class="modal-h"><h3 id="cfTitle"></h3><p id="cfBody"></p></div>
+    <div class="modal-f">
+      <button class="btn ghost" id="cfNo" type="button">Bekor qilish</button>
+      <button class="btn danger" id="cfYes" type="button">Tasdiqlash</button>
+    </div>
+  </div>
+</div>
+
+<div class="scrim" id="examScrim">
+  <div class="modal wide">
+    <div class="modal-h">
+      <div class="spread"><h3 id="exTitle"></h3><span class="timer" id="exTimer">--:--</span></div>
+      <div class="prog"><i id="exProg"></i></div>
+    </div>
+    <div class="modal-b" id="exBody"></div>
+    <div class="modal-f">
+      <button class="btn ghost" id="exQuit" type="button">Chiqish</button>
+      <button class="btn ghost" id="exPrev" type="button">Orqaga</button>
+      <button class="btn" id="exNext" type="button">Keyingisi</button>
+    </div>
+  </div>
+</div>
+
+<div class="scrim" id="viewScrim">
+  <div class="modal wide">
+    <div class="modal-h"><h3 id="vwTitle"></h3><p id="vwSub"></p></div>
+    <div class="modal-b" id="vwBody"></div>
+    <div class="modal-f" id="vwFoot"></div>
+  </div>
+</div>
+
+<div class="toasts" id="toasts"></div>
+
+<!-- Skriptlar: ES modullar, main.js qolganlarini o'zi chaqiradi -->
+<script type="module" src="js/main.js"></script>
+</body>
+</html>

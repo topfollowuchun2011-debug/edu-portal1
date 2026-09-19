@@ -1,0 +1,66 @@
+/* base.css — ranglar, shriftlar, reset */
+
+:root{
+  --bg:#f6f7fb;
+  --surface:#ffffff;
+  --surface-2:#f1f3f9;
+  --line:#e3e7f0;
+  --ink:#101528;
+  --ink-2:#4b5675;
+  --ink-3:#8b95b0;
+  --brand:#5b5bd6;
+  --brand-2:#7b5bd6;
+  --brand-soft:#ececfd;
+  --brand-ink:#3f3fae;
+  --ok:#0f9d6e;
+  --ok-soft:#e2f6ee;
+  --warn:#c77700;
+  --warn-soft:#fdf1dc;
+  --danger:#d64545;
+  --danger-soft:#fdeaea;
+  --rail:#111628;
+  --rail-ink:#98a2bd;
+  --rail-hover:#1b2138;
+  --shadow:0 1px 2px rgba(16,21,40,.05), 0 8px 24px -12px rgba(16,21,40,.18);
+  --shadow-lg:0 24px 60px -24px rgba(16,21,40,.35);
+  --r:14px;
+  --r-sm:10px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0a0d16; --surface:#121728; --surface-2:#1a2038; --line:#252d47;
+    --ink:#eef1f8; --ink-2:#9aa4c2; --ink-3:#6b7594;
+    --brand:#8b8bf0; --brand-soft:#1d2044; --brand-ink:#b9b9fb;
+    --ok:#3ecf9a; --ok-soft:#10301f; --warn:#f0b354; --warn-soft:#332412;
+    --danger:#f47b7b; --danger-soft:#3a1a1a;
+    --rail:#070a13; --rail-ink:#79839f; --rail-hover:#161c30;
+    --shadow:0 1px 2px rgba(0,0,0,.5), 0 8px 24px -12px rgba(0,0,0,.7);
+    --shadow-lg:0 24px 60px -24px rgba(0,0,0,.8);
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0a0d16; --surface:#121728; --surface-2:#1a2038; --line:#252d47;
+  --ink:#eef1f8; --ink-2:#9aa4c2; --ink-3:#6b7594;
+  --brand:#8b8bf0; --brand-soft:#1d2044; --brand-ink:#b9b9fb;
+  --ok:#3ecf9a; --ok-soft:#10301f; --warn:#f0b354; --warn-soft:#332412;
+  --danger:#f47b7b; --danger-soft:#3a1a1a;
+  --rail:#070a13; --rail-ink:#79839f; --rail-hover:#161c30;
+  --shadow:0 1px 2px rgba(0,0,0,.5), 0 8px 24px -12px rgba(0,0,0,.7);
+  --shadow-lg:0 24px 60px -24px rgba(0,0,0,.8);
+}
+
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{
+  font-family:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+  background:var(--bg); color:var(--ink);
+  font-size:15px; line-height:1.55;
+  -webkit-font-smoothing:antialiased;
+}
+h1,h2,h3,h4,.display{font-family:'Plus Jakarta Sans','Inter',sans-serif;font-weight:800;letter-spacing:-.02em;line-height:1.2}
+h1{font-size:1.6rem} h2{font-size:1.25rem} h3{font-size:1.02rem} h4{font-size:.9rem;font-weight:700}
+a{color:var(--brand)}
+svg{display:block}
+button,input,select,textarea{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--brand);outline-offset:2px;border-radius:6px}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
